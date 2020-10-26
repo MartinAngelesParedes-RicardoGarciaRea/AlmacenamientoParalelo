@@ -1,0 +1,30 @@
+
+<div class="jumbotron">
+    <h1 class="display-4">{{{title}}}</h1>
+    <hr class="my-4">
+    <p>{{{desc}}}</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+</div>
+
+
+<table class="table">
+  <caption>List of users</caption>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Boton 1</th>
+      <th scope="col">Boton 2</th>
+      <th scope="col">Boton 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each list}}
+    <tr>
+      <th scope="row">{{@key}}</th>
+      <td>{{btn1}}</td>
+      <td>{{btn2}}</td>
+      <td>{{btn3}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
