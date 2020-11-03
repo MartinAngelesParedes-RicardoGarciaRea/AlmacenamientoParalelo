@@ -22,9 +22,20 @@ app.get('/', function (req, res) {
 });
 app.get('/lista', function (req, res) {
     var li;
-    db.ref("Botones").on("value", function(snapshot){
+    db.ref("Botones").once("value", function(snapshot){
         li = snapshot.val();
+        console.log(li);
         res.render('lista',{title:"Estas en lista xD" ,desc:"Yo escribo aqui",list: li});
+    });
+});
+
+app.get('/detalles/:id', (req,res) => {
+    var x = req.params.id;
+    var li;
+    db.ref("Botones/"+x).once("value", function(snapshot){
+        li = snapshot.val();
+        console.log(li);
+        res.render('estado',{cliente: li['cliente'],btn1:li['boton1'],btn2:li['boton2'],btn3:li['boton3']});
     });
 });
 
@@ -42,18 +53,6 @@ app.post('/add', (req, res) =>{
     res.end(x);
 });
 
-
-
-
-app.post('/guardar', function (req, res) {
-    console.log(req.body);
-    var newUser = {
-        email: req.body.email,
-        pass: req.body.pass
-    }
-    db.ref("Usuarios").push(newUser);
-    res.render('home',{title: req.body.email});
-});
 
 app.listen(3000,function(){
     console.log('Server corriendo en el puerto 3000')
