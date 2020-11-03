@@ -12,18 +12,14 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Boton 1</th>
-      <th scope="col">Boton 2</th>
-      <th scope="col">Boton 3</th>
+      <th scope="col">Detalles</th>
     </tr>
   </thead>
   <tbody>
     {{#each list}}
     <tr>
       <th scope="row">{{@key}}</th>
-      <td>{{btn1}}</td>
-      <td>{{btn2}}</td>
-      <td>{{btn3}}</td>
+      <td><a type="button" href="/detalles/{{@key}}" class="btn btn-info">Informacion</a></td>
     </tr>
     {{/each}}
   </tbody>
