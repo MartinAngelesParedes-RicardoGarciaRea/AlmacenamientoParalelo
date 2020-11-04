@@ -20,26 +20,26 @@ var db = admin.database();
 app.get('/', function (req, res) {
     res.render('home',{title:"Bienvenido"});
 });
-app.get('/lista', function (req, res) {
+app.get('/lista', async function (req, res) {
     var li;
-    db.ref("Botones").once("value", function(snapshot){
+    await db.ref("Botones").once("value", function(snapshot){
         li = snapshot.val();
         console.log(li);
         res.render('lista',{title:"Estas en lista xD" ,desc:"Yo escribo aqui",list: li});
     });
 });
 
-app.get('/detalles/:id', (req,res) => {
+app.get('/detalles/:id', async (req,res) => {
     var x = req.params.id;
     var li;
-    db.ref("Botones/"+x).once("value", function(snapshot){
+    await db.ref("Botones/"+x).once("value", function(snapshot){
         li = snapshot.val();
         console.log(li);
         res.render('estado',{cliente: li['cliente'],btn1:li['boton1'],btn2:li['boton2'],btn3:li['boton3']});
     });
 });
 
-app.post('/add', (req, res) =>{
+app.post('/add', async (req, res) =>{
     var x = req.body.client;
     var nuevoDoc = {
         boton1: req.body.btn1,
@@ -48,7 +48,7 @@ app.post('/add', (req, res) =>{
         cliente: req.body.client
     }
     x = x.replace('.','').replace('.','').replace('.','').replace('.','');
-    db.ref("Botones/"+ x ).set(nuevoDoc);
+    await db.ref("Botones/"+ x ).set(nuevoDoc);
     console.log(req.body);
     res.end(x);
 });
