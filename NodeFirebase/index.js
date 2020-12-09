@@ -1,13 +1,10 @@
 const express = require('express');
-var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
 var admin = require('firebase-admin');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
 
 var serviceAccount = require("./nodefirebase-57412-firebase-adminsdk-kgxbi-2b5eca591e.json");
 
@@ -17,40 +14,30 @@ databaseURL: "https://nodefirebase-57412.firebaseio.com"
 });
 
 var db = admin.database();
-app.get('/', function (req, res) {
-    res.render('home',{title:"Bienvenido"});
-});
-app.get('/lista', async function (req, res) {
+app.get('/', async (req, res) => {
     var li;
-    await db.ref("Botones").once("value", function(snapshot){
+    await db.ref("servos").once("value", function(snapshot){
         li = snapshot.val();
-        console.log(li);
-        res.render('lista',{title:"Estas en lista xD" ,desc:"Yo escribo aqui",list: li});
     });
+    res.send(li)
 });
 
-app.get('/detalles/:id', async (req,res) => {
-    var x = req.params.id;
-    var li;
-    await db.ref("Botones/"+x).once("value", function(snapshot){
-        li = snapshot.val();
-        console.log(li);
-        res.render('estado',{cliente: li['cliente'],btn1:li['boton1'],btn2:li['boton2'],btn3:li['boton3']});
-    });
-});
 
-app.post('/add', async (req, res) =>{
-    var x = req.body.client;
+app.post('/', async (req, res) =>{
+    var d = new Date();    
+    let day = d.getDate();
+    let month = d.getMonth();
+    let year = d.getFullYear();
+
     var nuevoDoc = {
-        boton1: req.body.btn1,
-        boton2: req.body.btn2,
-        boton3: req.body.btn3,
-        cliente: req.body.client
+        servo: req.body.grad,
+        dia: day,
+        mes: month,
+        year: year,
     }
-    x = x.replace('.','').replace('.','').replace('.','').replace('.','');
-    await db.ref("Botones/"+ x ).set(nuevoDoc);
-    console.log(req.body);
-    res.end(x);
+    await db.ref("servos" ).push(nuevoDoc);
+    console.log(nuevoDoc)
+    res.end("Done");
 });
 
 
