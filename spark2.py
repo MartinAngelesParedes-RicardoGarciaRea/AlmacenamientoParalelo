@@ -1,3 +1,4 @@
+
 import requests
 import json
 from pyspark.sql import SparkSession
@@ -35,12 +36,13 @@ otherPeople = spark.read.json(otherPeopleRDD)
 otherPeople.printSchema()
 otherPeople.createOrReplaceTempView("servo")
 
-query = "select avg(servo.servo) from servo where date between '" + fechainicial + "' and '" + fechafinal+"'"
+query = "select avg(servo.servo) from servo where date >= '" + fechainicial + "' and date <= '" + fechafinal+"'"
 otherPeople.printSchema()
 otherPeople.createOrReplaceTempView("servo")
 teenager = spark.sql(query)
 teenager.show(100)
 
-
+#2019-11-10 22:6:24:831
+#2020-11-10 22:6:24:831
 
 spark.stop()
