@@ -8,6 +8,12 @@ r = requests.get('http://144.202.34.148:4003')
 response = r.text
 print("toda",response)
 
+print("inserta fecha inicial")
+fechainicial = input()
+print("fecha inicial es",fechainicial)
+print("inserta fecha final")
+fechafinal = input()
+print("fecha final es",fechafinal)
 
     # $example on:init_session$
 spark = SparkSession \
@@ -28,7 +34,13 @@ otherPeople = spark.read.json(otherPeopleRDD)
 
 otherPeople.printSchema()
 otherPeople.createOrReplaceTempView("servo")
-teenager = spark.sql("select avg(servo.servo) from servo where dia between  1 and 3")
+
+query = "select avg(servo.servo) from servo where date between '" + fechainicial + "' and '" + fechafinal+"'"
+otherPeople.printSchema()
+otherPeople.createOrReplaceTempView("servo")
+teenager = spark.sql(query)
 teenager.show(100)
+
+
 
 spark.stop()
