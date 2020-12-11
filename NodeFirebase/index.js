@@ -24,19 +24,22 @@ app.get('/', async (req, res) => {
 
 
 app.post('/', async (req, res) =>{
-    var d = new Date();    
+    var d = new Date();
     let day = d.getDate();
     let month = d.getMonth();
     let year = d.getFullYear();
-
+    let hour = d.getHours()
+    let min = d.getMinutes()
+    let seg = d.getSeconds()
+    let mil = d.getMilliseconds()
+    let date = year + "-" + month + "-" + day
+    let time = hour + ":" + min +":" + seg + ":"+mil
     var nuevoDoc = {
         servo: req.body.grad,
-        dia: day,
-        mes: month,
-        year: year,
+        date,
+        time
     }
     await db.ref("servos" ).push(nuevoDoc);
-    console.log(nuevoDoc)
     res.end("Done");
 });
 
