@@ -32,12 +32,10 @@ app.post('/', async (req, res) =>{
     let min = d.getMinutes()
     let seg = d.getSeconds()
     let mil = d.getMilliseconds()
-    let date = year + "-" + month + "-" + day
-    let time = hour + ":" + min +":" + seg + ":"+mil
+    let date = year + "-" + month + "-" + day +" "+ hour + ":" + min +":" + seg + ":"+mil
     var nuevoDoc = {
         servo: req.body.grad,
-        date,
-        time
+        date
     }
     await db.ref("servos" ).push(nuevoDoc);
     res.end("Done");
