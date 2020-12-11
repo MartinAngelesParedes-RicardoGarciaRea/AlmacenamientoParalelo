@@ -28,7 +28,7 @@ otherPeople = spark.read.json(otherPeopleRDD)
 
 otherPeople.printSchema()
 otherPeople.createOrReplaceTempView("servo")
-teenager = spark.sql("select avg(servo.servo) from servo")
+teenager = spark.sql("select avg(servo.servo) from servo where dia between  1 and 3")
 teenager.show(100)
 
 spark.stop()
